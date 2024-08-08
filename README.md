@@ -13,12 +13,12 @@ Uploading Instructions:
 
 1. Clone the Repository:
 
-        git clone https://github.com/Geo-Lih/OpenAi_Assistant_Api_Test_Task.git
+        git clone https://github.com/Geo-Lih/CryptoTickerAPI_Test_Task_2024_08.git
 
 
 2. Navigate to Project Directory:
 
-        cd OpenAi_Assistant_Api_Test_Task
+        cd CryptoTickerAPI_Test_Task_2024_08
 
 3. Set Up Docker Containers:
 

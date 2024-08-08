@@ -6,8 +6,8 @@ from fastapi import WebSocket
 
 from exchanges.base import BaseExchange
 from constants import (KRAKEN_ASSET_PAIRS_URL, KRAKEN_WEBSOCKET_URL, KRAKEN)
-from exchanges.utils import format_pair
 from utils.long_list_yield import long_list_yield
+from utils.normalize_pair import normalize_pair
 
 
 class KrakenExchange(BaseExchange):
@@ -40,7 +40,7 @@ class KrakenExchange(BaseExchange):
         if self._is_ticker_data(data):
             for ticker in data['data']:
                 avg_price = self._calculate_average_price(ticker)
-                formatted_pair = format_pair(ticker[self.symbol_key], KRAKEN)
+                formatted_pair = normalize_pair(ticker[self.symbol_key])
                 await self.send_data(
                     KRAKEN,
                     formatted_pair,

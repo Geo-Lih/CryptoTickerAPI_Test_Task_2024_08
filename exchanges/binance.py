@@ -7,7 +7,6 @@ from exchanges.base import BaseExchange
 from constants import (
     BINANCE_PAIR_WEBSOCKET_URL,
     BINANCE_ALL_PAIRS_WEBSOCKET_URL, EXCHANGE_KEYS, BINANCE)
-from exchanges.utils import format_pair
 
 
 class BinanceExchange(BaseExchange):
@@ -30,10 +29,9 @@ class BinanceExchange(BaseExchange):
         for ticker in data:
             if self._is_valid_ticker(ticker):
                 avg_price = self._calculate_average_price(ticker)
-                formatted_pair = format_pair(ticker[self.symbol_key], BINANCE)
                 await self.send_data(
                     BINANCE,
-                    formatted_pair,
+                    ticker[self.symbol_key],
                     avg_price,
                     float(ticker[self.bid_key]),
                     float(ticker[self.ask_key])
@@ -42,8 +40,7 @@ class BinanceExchange(BaseExchange):
     @staticmethod
     def _get_websocket_uri(pair: Optional[str]) -> str:
         if pair:
-            normalized_pair = pair.replace('/', '').lower()
-            return BINANCE_PAIR_WEBSOCKET_URL.format(normalized_pair)
+            return BINANCE_PAIR_WEBSOCKET_URL.format(pair.lower())
         return BINANCE_ALL_PAIRS_WEBSOCKET_URL
 
     @staticmethod

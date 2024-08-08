@@ -3,6 +3,7 @@ import asyncio
 from exchanges.connector import ExchangeConnector
 from typing import Optional
 from utils.determine_exchanges import determine_exchanges
+from utils.normalize_pair import normalize_pair
 
 app = FastAPI()
 connector = ExchangeConnector()
@@ -18,10 +19,11 @@ async def websocket_endpoint(websocket: WebSocket,
 
     await websocket.accept()
     try:
-        await connector.stop_connections()
+        # await connector.stop_connections()
 
+        normalized_pair = normalize_pair(pair, exchange)
         exchanges_to_start = determine_exchanges(exchange)
-        tasks = [connector.start(exchange_cls, websocket, pair) for exchange_cls in exchanges_to_start]
+        tasks = [connector.start(exchange_cls, websocket, normalized_pair) for exchange_cls in exchanges_to_start]
         await asyncio.gather(*tasks)
 
     except WebSocketDisconnect:

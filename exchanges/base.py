@@ -11,6 +11,7 @@ class BaseExchange:
     Methods:
     - _initialize_keys: Initializes exchange-specific keys for bid, ask, and symbol.
     - send_data: Sends formatted ticker data via WebSocket.
+    - _calculate_average_price: Calculates the average price from bid and ask.
     """
     def __init__(self, websocket: WebSocket, exchange_name: str):
         self.websocket = websocket
@@ -33,3 +34,6 @@ class BaseExchange:
                 "ask_price": ask_price,
             })
         )
+
+    def _calculate_average_price(self, ticker_data: dict) -> float:
+        return (float(ticker_data[self.bid_key]) + float(ticker_data[self.ask_key])) / 2

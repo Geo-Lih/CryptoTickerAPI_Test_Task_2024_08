@@ -51,6 +51,3 @@ class BinanceExchange(BaseExchange):
     @staticmethod
     def _is_valid_ticker(ticker: dict) -> bool:
         return all(key in ticker for key in EXCHANGE_KEYS[BINANCE].values())
-
-    def _calculate_average_price(self, ticker: dict) -> float:
-        return (float(ticker[self.bid_key]) + float(ticker[self.ask_key])) / 2

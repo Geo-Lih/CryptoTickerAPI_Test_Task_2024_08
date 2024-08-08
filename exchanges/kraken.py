@@ -20,7 +20,6 @@ class KrakenExchange(BaseExchange):
     - _get_pairs: Retrieves the list of trading pairs.
     - _pairs: Property that returns the trading pairs for the WebSocket connection.
     - _subscribe_to_pairs: Subscribes to the specified trading pairs on Kraken.
-    - _calculate_average_price: Calculates the average price from bid and ask.
     - _is_ticker_data: Checks if the data is ticker information.
     """
     def __init__(self, websocket: WebSocket, pair: Optional[str] = None):
@@ -70,9 +69,6 @@ class KrakenExchange(BaseExchange):
                     "symbol": batch_pairs
                 }
             }))
-
-    def _calculate_average_price(self, ticker_data: dict) -> float:
-        return (float(ticker_data[self.bid_key]) + float(ticker_data[self.ask_key])) / 2
 
     @staticmethod
     def _is_ticker_data(data: dict) -> bool:
